@@ -1,6 +1,7 @@
 #!/bin/sh
 
 cd /tmp
+wget https://raw.github.com/zzeroo/vServer-Debian/master/preseed.cfg-vserver
 mkdir irmod
 cd irmod
 gzip -d < ../cd/install.amd/initrd.gz | \
