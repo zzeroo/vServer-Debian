@@ -1,0 +1,3 @@
+[submodule "vServer-Debian.wiki"]
+	path = vServer-Debian.wiki
+	url = git@github.com:zzeroo/vServer-Debian.wiki.git
