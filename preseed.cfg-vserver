@@ -12,7 +12,7 @@ d-i debian-installer/locale string de_DE.UTF-8
 
 # Keyboard selection.
 # keymap is an alias for keyboard-configuration/xkb-keymap
-#d-i keymap select de
+d-i keymap select de
 # d-i keyboard-configuration/toggle select No toggling
 # Keyboard selection.
 d-i console-tools/archs select de
@@ -184,7 +184,7 @@ d-i partman-lvm/confirm_nooverwrite boolean true
 d-i partman-auto-lvm/no_boot boolean true
 
 # Select all possible disks to use in the volume group
-d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf /dev/sdg /dev/sdh /dev/sdi /dev/sdj
+d-i partman-auto/disk string /dev/sd*
 
 # Name of the new LVM VG
 d-i partman-auto-lvm/new_vg_name string vg00
@@ -234,7 +234,7 @@ vserver :: \
 1024 1024 1024 linux-swap method{ swap } \
 format{ } $lvmok{ } lv_name{ swap } \
 . \
-2048 2048 2048 ext4 method{ lvm } \
+20480 20480 20480 ext4 method{ lvm } \
 $lvmok{ } mountpoint{ / } lv_name{ root } \
 format{ } use_filesystem{ } filesystem{ ext4 } \
 options/relatime{ relatime } \
@@ -345,7 +345,7 @@ d-i apt-setup/contrib boolean true
 #d-i debian-installer/allow_unauthenticated boolean true
 
 ### Package selection
-#tasksel tasksel/first multiselect standard, web-server
+tasksel tasksel/first multiselect standard, ssh-server
 # If the desktop task is selected, install the kde and xfce desktops
 # instead of the default gnome desktop.
 #tasksel tasksel/desktop multiselect kde, xfce
@@ -413,5 +413,15 @@ d-i finish-install/reboot_in_progress note
 # directly, or use the apt-install and in-target commands to easily install
 # packages and run commands in the target system.
 #d-i preseed/late_command string apt-install zsh; in-target chsh -s /bin/zsh
+d-i preseed/late_command string apt-install vim screen sudo git-core;
+
+d-i preseed/late_command string \
+	in-target echo "############# START late commands#########"; \
+	in-target umount /mnt/hack; \
+	in-target lvremove -f /dev/vg00/hack; \
+	in-target rm -rf /mnt/hack; \
+	in-target echo  "############# END late commands #########"
+
 
 grub-installer grub-installer/bootdev string /dev/sda
+
