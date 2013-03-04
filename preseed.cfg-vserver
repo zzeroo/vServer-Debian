@@ -231,7 +231,7 @@ d-i partman-auto/choose_recipe select vserver
 # Default partition schema.
 d-i partman-auto/expert_recipe string \
 vserver :: \
-1024 50 1024 linux-swap method{ swap } \
+1624 50 1624 linux-swap method{ swap } \
 format{ } $lvmok{ } lv_name{ swap } \
 . \
 20480 60 20480 ext4 method{ lvm } \
