@@ -231,7 +231,7 @@ d-i partman-auto/choose_recipe select vserver
 # Default partition schema.
 d-i partman-auto/expert_recipe string \
 vserver :: \
-1624 50 1624 linux-swap method{ swap } \
+16240 50 16240 linux-swap method{ swap } \
 format{ } $lvmok{ } lv_name{ swap } \
 . \
 20480 60 20480 ext4 method{ lvm } \
@@ -412,7 +412,7 @@ d-i finish-install/reboot_in_progress note
 # still a usable /target directory. You can chroot to /target and use it
 # directly, or use the apt-install and in-target commands to easily install
 # packages and run commands in the target system.
-#d-i preseed/late_command string apt-install zsh; in-target chsh -s /bin/zsh
+d-i preseed/late_command string apt-install vim rubygems git-core
 
 
 grub-installer grub-installer/bootdev string /dev/sda
