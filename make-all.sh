@@ -38,8 +38,9 @@ cd cd
 md5sum `find -follow -type f` > md5sum.txt
 cd ..
 
+genisoimage -o vserver-debian-testing-amd64.iso -r -J     -no-emul-boot -boot-load-size 4      -boot-info-table -b isolinux/isolinux.bin     -c isolinux/boot.cat ./cd
 
-echo "genisoimage -o vserver-debian-testing-amd64.iso -r -J     -no-emul-boot -boot-load-size 4      -boot-info-table -b isolinux/isolinux.bin     -c isolinux/boot.cat ./cd"
+
 echo "dvd+rw-format -force /dev/sr0"
 echo "growisofs -Z /dev/sr0=vserver-debian-testing-amd64.iso"
 echo "cp vserver-debian-testing-amd64.iso /tmp/"
