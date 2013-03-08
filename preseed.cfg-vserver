@@ -92,10 +92,10 @@ d-i hw-detect/load_firmware boolean true
 # Use the following settings if you wish to make use of the network-console
 # component for remote installation over SSH. This only makes sense if you
 # intend to perform the remainder of the installation manually.
-d-i anna/choose_modules string network-console
-#d-i network-console/authorized_keys_url string http://10.0.0.1/openssh-key
-d-i network-console/password password 930440Hk
-d-i network-console/password-again password 930440Hk
+# d-i anna/choose_modules string network-console
+# #d-i network-console/authorized_keys_url string http://10.0.0.1/openssh-key
+# d-i network-console/password password 930440Hk
+# d-i network-console/password-again password 930440Hk
 
 ### Mirror settings
 # If you select ftp, the mirror/country string does not need to be set.
@@ -360,7 +360,7 @@ d-i pkgsel/upgrade select full-upgrade
 # installed, and what software you use. The default is not to report back,
 # but sending reports helps the project determine what software is most
 # popular and include it on CDs.
-#popularity-contest popularity-contest/participate boolean false
+popularity-contest popularity-contest/participate boolean false
 
 ### Finishing up the installation
 # During installations from serial console, the regular virtual consoles
@@ -391,6 +391,31 @@ d-i finish-install/reboot_in_progress note
 #   debconf-get-selections >> file
 
 
+#### Boot loader installation.
+
+# Grub is the default boot loader (for x86). If you want lilo installed
+# instead, uncomment this:
+#d-i grub-installer/skip boolean true
+
+# This is fairly safe to set, it makes grub install automatically to the MBR
+# if no other operating system is detected on the machine.
+d-i grub-installer/only_debian boolean true
+
+# This one makes grub-installer install to the MBR if if finds some other OS
+# too, which is less safe as it might not be able to boot that other OS.
+d-i grub-installer/with_other_os boolean true
+
+lternatively, if you want to install to a location other than the mbr,
+# uncomment and edit these lines:
+#d-i grub-installer/bootdev  string (hd0,0)
+#d-i grub-installer/only_debian boolean false
+#d-i grub-installer/with_other_os boolean false
+
+#### Finishing up the first stage install.
+
+# Avoid that last message about the install being complete.
+d-i prebaseconfig/reboot_in_progress note
+
 #### Advanced options
 ### Running custom commands during the installation
 # d-i preseeding is inherently not secure. Nothing in the installer checks
@@ -412,8 +437,5 @@ d-i finish-install/reboot_in_progress note
 # still a usable /target directory. You can chroot to /target and use it
 # directly, or use the apt-install and in-target commands to easily install
 # packages and run commands in the target system.
-d-i preseed/late_command string apt-install vim rubygems git-core
-
-
-grub-installer grub-installer/bootdev string /dev/sda
+#d-i preseed/late_command string apt-install vim rubygems git-core
 
